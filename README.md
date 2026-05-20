@@ -1,25 +1,63 @@
 # Wheel Spin
 
-## Getting Started
+A browser-based wheel-of-fortune demo built with p5.js. The project draws a rotating prize wheel, lets users click a spin button, and shows a result when the wheel stops.
 
-Open `index.html` in your web browser and start editing `sketch.js`.
+## Demo
 
-## Running Locally
+- Spin the wheel by clicking the `SPIN` button.
+- The wheel starts spinning at a random speed and slows down naturally.
+- When the wheel stops, the winning segment result is displayed.
+- A confetti effect plays automatically after each spin.
 
-For projects with media files, use a local server:
+## Features
+
+- Responsive canvas using `windowWidth` and `windowHeight`
+- 6 prize segments with alternating colors
+- Labels for each segment:
+  - `100 points`
+  - `200 points`
+  - `Free Spin`
+  - `400 points`
+  - `500 points`
+  - `Try Again`
+- Smooth spin physics with acceleration and deceleration
+- Pointer that indicates the current winning segment
+- Confetti celebration using `tsparticles.confetti`
+
+## Files
+
+- `index.html` - loads p5.js, confetti library, and `sketch.js`
+- `sketch.js` - main p5.js sketch with wheel rendering, spin logic, and result calculation
+- `css/style.css` - basic centered layout and background styling
+
+## How to Run
+
+1. Open `index.html` in a modern web browser.
+2. Click the `SPIN` button on the canvas.
+3. Watch the wheel rotate and see the result once it stops.
+
+### Recommended Local Server
+
+For best results, run from a local server instead of opening the file directly.
 
 ```bash
-# Using Python
+# Using Python 3
 python -m http.server 8000
 
 # Using Node.js
 npx http-server
-
-# Using VS Code Live Server extension
-# Right-click index.html -> "Open with Live Server"
 ```
 
-## Resources
+Then open `http://localhost:8000` in your browser.
 
-- [p5.js 2.0](https://beta.p5js.org/)
-- [p5.js Reference](https://p5js.org/reference/)
+## Development Notes
+
+- The wheel logic is implemented in `sketch.js` using p5.js.
+- The current segment is determined by mapping the wheel angle to one of six segments.
+- The result text is drawn above the wheel after the spin ends.
+- Window resizing is handled by `windowResized()` to keep the canvas full-screen.
+
+## Dependencies
+
+- `p5.js`
+- `tsparticles.confetti`

@@ -69,11 +69,14 @@ function draw() {
   }
   currentAngle += spinSpeed;
   translate(CanvasWidth / 2, CanvasHeight / 2); // relocating origin to the center of canvas
+  circle(0, 0, diameter + 40);
   push();
   rotate(currentAngle);
   for (let i = 0; i < TotalSegments; i++) {
     let startAngle = i * SegmentAngle;
     let stopAngle = (i + 1) * SegmentAngle;
+    fill("white")
+    arc(0, 0, diameter+40, diameter+40, startAngle, stopAngle, PIE); // creating the ring
     fill(segmentColors[i % segmentColors.length]);
     stroke(80);
     strokeWeight(2);
@@ -85,6 +88,10 @@ function draw() {
     let textX = cos(bisector) * (radius / 2 + radius * (10 / 100));
     let textY = sin(bisector) * (radius / 2 + radius * (10 / 100));
     text(segmentPoints[i], textX, textY); // displaying the points in the wheel
+    cx = (radius+10)  * cos(bisector);
+    cy = (radius+10) * sin(bisector);
+    fill("yellow")
+    circle(cx,cy,10)
   }
   pop();
   fill(255, 0, 0);
@@ -99,7 +106,7 @@ function draw() {
     textSize(28);
     textAlign(CENTER, CENTER);
     // textStyle(BOLD);
-    text(result, radius + 100, 0); //result shown
+    text(result, 0,-1*(radius+50)); //result shown
   }
   resetMatrix();
   translate(CanvasWidth / 2, CanvasHeight / 2);
@@ -111,7 +118,7 @@ function draw() {
   fill("#ffffff");
   textSize(28);
   textAlign(CENTER, CENTER);
-  text("SPIN",0,radius+50)
+  text("SPIN", 0, radius + 50);
 }
 
 function getPoints() {
@@ -130,6 +137,7 @@ function mousePressed() {
   if (d < 50 && !isSpinning) {
     spinSpeed = random(15, 25); // random speed of the wheel
     isSpinning = true;
+    result = "";
   }
 }
 
