@@ -27,6 +27,8 @@
 // }
 let CanvasWidth;
 let CanvasHeight;
+let TotalSegments = 6;
+let SegmentAngle = 360 / TotalSegments;
 
 // Spin state
 let currentAngle = 0;
@@ -46,14 +48,12 @@ function setup() {
   CanvasWidth = windowWidth;
   CanvasHeight = windowHeight;
   createCanvas(CanvasWidth, CanvasHeight);
-  let TotalSegments = 6;
-  let SegmentAngle = 360 / TotalSegments;
-  let centerX=CanvasWidth/2;
-  let centerY=CanvasHeight/2;
   angleMode(DEGREES);
 }
 function draw() {
   background("aqua");
+  let centerX=CanvasWidth/2;
+  let centerY=CanvasHeight/2;
   translate(centerX,centerY)
   for (let i = 0; i < TotalSegments; i++) {
     let startAngle = i * SegmentAngle;
@@ -68,12 +68,12 @@ function draw() {
   noStroke();
   circle(0,0, 24);
 }
-function mousePressed(){
-  let d=dist(mouseX,mouseY,centerX,centerY)
-  if(d<200){
-    
-  }
-}
+// function mousePressed(){
+//   let d=dist(mouseX,mouseY,centerX,centerY)
+//   if(d<200){
+
+//   }
+// }
 function windowResized() {
   CanvasWidth = windowWidth;
   CanvasHeight = windowHeight;
