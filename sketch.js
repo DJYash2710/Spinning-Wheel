@@ -27,23 +27,19 @@
 // }
 let CanvasWidth;
 let CanvasHeight;
-let TotalSegments = 6;
+let TotalSegments = 6; //segments in the circle
 let SegmentAngle = 360 / TotalSegments;
-
+let diameter = 400;
 // Spin state
 let currentAngle = 0;
-let spinSpeed = 2 ;
+let spinSpeed = 0;
 let targetSpeed = 0;
 let isSpinning = false;
 const MAX_SPEED = 20; // degrees per frame at full speed
 const ACCEL = 0.25; // how fast it accelerates
-const DECEL = 0.05; // how fast it decelerates when stopping
+const DECEL = 0.01; // how fast it decelerates when stopping
 // Alternating colors for visual effect
-const segmentColors = [
-  "#FFFFFF",
-  "#6BCB77",
-];
-currentAngle+=spinSpeed;
+const segmentColors = ["#FFFFFF", "#6BCB77"];
 function setup() {
   CanvasWidth = windowWidth;
   CanvasHeight = windowHeight;
@@ -52,28 +48,46 @@ function setup() {
 }
 function draw() {
   background("aqua");
-  let centerX=CanvasWidth/2;
-  let centerY=CanvasHeight/2;
-  translate(centerX,centerY)
+  if (isSpinning) {
+    spinSpeed += (targetSpeed - spinSpeed) * ACCEL; //increasing spinning speed
+  } else {
+    spinSpeed *= 1 - DECEL; // decreasing spin speed;
+    if (abs(spinSpeed) < 0.05) spinSpeed = 0;
+  }
+  currentAngle += spinSpeed;
+  translate(CanvasWidth / 2, CanvasHeight / 2);
+  rotate(currentAngle);
   for (let i = 0; i < TotalSegments; i++) {
     let startAngle = i * SegmentAngle;
     let stopAngle = (i + 1) * SegmentAngle;
     fill(segmentColors[i % segmentColors.length]);
     stroke(80);
     strokeWeight(2);
-    arc(0, 0, 400, 400, startAngle, stopAngle, PIE);
-  } 
-  // Center hub
+    arc(0, 0, diameter, diameter, startAngle, stopAngle, PIE);
+  }
   fill("#222");
   noStroke();
-  circle(0,0, 24);
+  circle(0, 0, 24);
+  resetMatrix();
+  translate(CanvasWidth / 2, CanvasHeight / 2);
+fill("#ffffff");
+  stroke(80);
+  strokeWeight(2);
+  arc(0, -1 * ((diameter / 2)-20), 100, 100, 250, 290, PIE);
+  // Center hub
 }
-// function mousePressed(){
-//   let d=dist(mouseX,mouseY,centerX,centerY)
-//   if(d<200){
 
-//   }
-// }
+function mousePressed() {
+  let d = dist(mouseX, mouseY, CanvasWidth / 2, CanvasHeight / 2);
+  if (d < diameter / 2 + 10) {
+    if (!isSpinning) {
+      isSpinning = true;
+      targetSpeed = MAX_SPEED;
+    } else {
+      isSpinning = false;
+    }
+  }
+}
 function windowResized() {
   CanvasWidth = windowWidth;
   CanvasHeight = windowHeight;
