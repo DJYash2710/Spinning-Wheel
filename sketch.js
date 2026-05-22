@@ -1,30 +1,3 @@
-// let CanvasWidth = innerWidth;
-// let CanvasHeight = innerHeight;
-// let TotalSegments = 6;
-// let SegmentAngle = 360 / TotalSegments;
-
-// function setup() {
-//   createCanvas(CanvasWidth, CanvasHeight);
-//   angleMode(DEGREES); //calculating angle in degrees
-//   noLoop();
-// }
-// function draw() {
-//   background("aqua");
-//   for (i = 0; i < TotalSegments; i++) {
-//     let StartAngle = i * SegmentAngle;
-//     let StopAngle = (i + 1) * SegmentAngle;
-//     arc(
-//       CanvasWidth / 2, // x-coordinate of the center
-//       CanvasHeight / 2, // y-coordinate of the center
-//       400, //diameter of the arc
-//       400,//diameter of the arc
-//       StartAngle, // starting angle of the arc
-//       StopAngle,// stopping angle of the arc
-//       PIE,
-//     );
-//     fill("white"); //color of the arc
-//   }
-// }
 let CanvasWidth;
 let CanvasHeight;
 let TotalSegments = 6; //segments in the circle
@@ -39,7 +12,7 @@ let isSpinning = false;
 let result = "";
 const MAX_SPEED = 20; // degrees per frame at full speed
 const ACCEL = 0.25; // how fast it accelerates
-const DECEL = 0.02; // how fast it decelerates when stopping
+const DECEL = 0.01; // how fast it decelerates when stopping
 // Alternating colors for visual effect
 const segmentColors = ["#FFFFFF", "#6BCB77"];
 const segmentPoints = [
@@ -72,11 +45,14 @@ function draw() {
   circle(0, 0, diameter + 40);
   push();
   rotate(currentAngle);
+  noFill();
+  stroke("red");
+  strokeWeight(20);
+  circle(0, 0, diameter + 20); // creating the ring
+
   for (let i = 0; i < TotalSegments; i++) {
     let startAngle = i * SegmentAngle;
     let stopAngle = (i + 1) * SegmentAngle;
-    fill("white")
-    arc(0, 0, diameter+40, diameter+40, startAngle, stopAngle, PIE); // creating the ring
     fill(segmentColors[i % segmentColors.length]);
     stroke(80);
     strokeWeight(2);
@@ -88,10 +64,10 @@ function draw() {
     let textX = cos(bisector) * (radius / 2 + radius * (10 / 100));
     let textY = sin(bisector) * (radius / 2 + radius * (10 / 100));
     text(segmentPoints[i], textX, textY); // displaying the points in the wheel
-    cx = (radius+10)  * cos(bisector);
-    cy = (radius+10) * sin(bisector);
-    fill("yellow")
-    circle(cx,cy,10)
+    cx = (radius + 10) * cos(bisector);
+    cy = (radius + 10) * sin(bisector);
+    fill("yellow");
+    circle(cx, cy, 10); // the small circles in the wheel
   }
   pop();
   fill(255, 0, 0);
@@ -106,7 +82,7 @@ function draw() {
     textSize(28);
     textAlign(CENTER, CENTER);
     // textStyle(BOLD);
-    text(result, 0,-1*(radius+50)); //result shown
+    text(result, 0, -1 * (radius + 50)); //result shown
   }
   resetMatrix();
   translate(CanvasWidth / 2, CanvasHeight / 2);
